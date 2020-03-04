@@ -1,0 +1,1 @@
+ Docker image with ansible, openstacksdk and friends installed
