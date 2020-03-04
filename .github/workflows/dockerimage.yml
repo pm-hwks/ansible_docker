@@ -8,19 +8,16 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Login to github registry
-        uses: actions-hub/docker/login@master
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          DOCKER_REGISTRY_URL: hub.docker.com
-
+      - name: Login to docker hub
+      uses: actions-hub/docker/login@master
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+    
       - name: Build :latest
-        if: success()
-        run: docker build -t hub.docker.com/ ${{ secrets.DOCKER_USERNAME }}/${{ github.repository }}:latest .
-        
+        run: docker build -t ${GITHUB_REPOSITORY}:latest .
+      
       - name: Push to docker hub :latest
-        if: success()
         uses: actions-hub/docker@master
         with:
-          args: push hub.docker.com/ ${{ secrets.DOCKER_USERNAME }}/${{ github.repository }}:latest
+          args: push ${GITHUB_REPOSITORY}:latest
