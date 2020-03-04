@@ -13,11 +13,12 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE }}
     
       - name: Build :latest
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/${GITHUB_REPOSITORY}:latest .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:latest .
       
       - name: Push to docker hub :latest
         uses: actions-hub/docker@master
         with:
-          args: push ${{ secrets.DOCKER_USERNAME }}/${GITHUB_REPOSITORY}:latest
+          args: push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:latest
